@@ -12,3 +12,7 @@
   font-size: 32px;
   line-height: 35pt;
 }
+
+.reveal section img {
+  transform: scale(0.7);
+}
