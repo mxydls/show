@@ -16,3 +16,7 @@
 .reveal section img {
   transform: scale(0.7);
 }
+
+.reveal section code {
+  font-family: Consolas;
+}
