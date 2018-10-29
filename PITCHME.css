@@ -1,3 +1,9 @@
 .reveal section p {
-  font-size: 20px;
+  font-size: 30px;
+  line-height: 8pt;
+  letter-spacing: 2pt;
+}
+
+.reveal section ul {
+  font-size: 30px;
 }
