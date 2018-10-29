@@ -1,2 +1,3 @@
-theme: night
+theme: sky
 layout : center-left
+theme-override: PITCHME.css
