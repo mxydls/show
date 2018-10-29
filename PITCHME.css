@@ -19,5 +19,6 @@
 
 .reveal section code {
   font-family: Consolas;
-  font-size: 15px;
+  font-size: 18px;
+  max-height: 600px;
 }
