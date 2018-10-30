@@ -1,5 +1,5 @@
 theme: sky
-layout : top-left
+layout : center-left
 mouse-wheel : true
 code-line-numbers : true
 theme-override : PITCHME.css
