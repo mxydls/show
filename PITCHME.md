@@ -1,4 +1,4 @@
-## 实时计算概述
+## @fa[folder](实时计算概述)
 ![enter image description here](http://static.oschina.net/uploads/img/201410/14080822_ia5p.png)
 
 ---
@@ -29,7 +29,7 @@
 
 ---
 
-Hadoop诞生
+@fa[elephant](Hadoop诞生)
 
 ![enter image description here](https://images2015.cnblogs.com/blog/915691/201604/915691-20160408214958312-2124876577.png)
 
@@ -37,7 +37,7 @@ Hadoop和hive作为全量数据处理最著名的工具，具有吞吐量、自�
 
 ---
 
-### Hadoop的局限
+### @fa[thumbs-down](Hadoop的局限)
 
 >高延迟
 >只能处理全量数据
@@ -72,7 +72,7 @@ Hadoop和hive作为全量数据处理最著名的工具，具有吞吐量、自�
 
 ---
 
-### @fa[elephant](zookeeper)
+### zookeeper
 
  官方说辞：Zookeeper 分布式服务框架是Apache Hadoop 的一个子项目，它主要是用来解决分布式应用中经常遇到的一些数据管理问题，如：统一命名服务、状态同步服务、集群管理、分布式应用配置项的管理等。
  
