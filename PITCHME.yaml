@@ -2,4 +2,5 @@ theme: sky
 layout : center-left
 mouse-wheel : true
 code-line-numbers : true
+transition : convex
 theme-override : PITCHME.css
