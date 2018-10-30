@@ -5,12 +5,11 @@
 
 ### 目录
 
-ul
+@ul
 
  - 分布式系统和实时计算
  - Zookeeper
  - Storm
- - Kafka
  - 在业务中使用storm
  - 讨论
 
@@ -150,24 +149,34 @@ Hadoop和hive作为全量数据处理最著名的工具，具有吞吐量、自�
 
 ### zookeeper的典型应用场景
 
-### 配置管理
-在zk上管理服务的配置内容。订阅者是所有使用配置的服务
+---
+
+#### 配置管理
+
+
+- 在zk上管理服务的配置内容。订阅者是所有使用配置的服务
 服务在启动时可以从ZK获取需要的配置，设置监听事件
 
 ---
 
 #### 命名服务
-利用zk的全局一致性，上下游的服务可以在zk约定好path相互探索发现
+
+
+- 利用zk的全局一致性，上下游的服务可以在zk约定好path相互探索发现
 
 ---
 
 #### 分布式锁
->
-***保持独占***
-创建同名的节点作为锁。创建成功就获得了锁并操作某个文件
 
-***控制时序***
-根据ZK创建临时节点的序列化特性，根据创建节点的先后来访问文件
+@ul
+
+- ***保持独占***
+	- 创建同名的节点作为锁。创建成功就获得了锁并操作某个文件
+
+- ***控制时序***
+	- 根据ZK创建临时节点的序列化特性，根据创建节点的先后来访问文件
+
+@ulend
 
 ---
 
@@ -199,15 +208,24 @@ Hadoop和hive作为全量数据处理最著名的工具，具有吞吐量、自�
 ![enter image description here](https://images2015.cnblogs.com/blog/915691/201604/915691-20160409202522187-1038237110.png)
 
 ---
-@ul
 
 #### spout
+@ul
+
  - 在拓扑中充当数据源的角色。通常spout会从外部读取数据，然后转换为tuple数据形式，并输出
 
+@ulend
+
 #### bolt
+@ul
+
  - 接收数据并执行处理。bolt可以执行过滤、函数操作、合并、写入数据库等任何操作。bolt是被动的角色
 
+@ulend
+
 #### tuple
+@ul
+
  - storm中数据流的抽象，本质上就是` List<Object>`， 经过序列化后在组件之间传输
 
 @ulend
@@ -353,12 +371,17 @@ public class ReportBolt extends BaseRichBolt {
 ---
 
 ### storm容错性机制
-@ul
 
 #### **如果一个worker意外死亡**
+@ul
+
  - supervisor会重启它。如果它在启动时连续失败多次，那么会在一段时间内一直没有发送心跳给nimbus，这个时候nimbus会在另一台主机上重新分配worker
 
+@ulend
+
 #### **如果一个集群中的主机宕机了**
+@ul
+
  - 那么在这台主机上的任务都会停止，nimbus会重新分配这些任务
 
 @ulend
@@ -366,14 +389,19 @@ public class ReportBolt extends BaseRichBolt {
 ---
 
 ### storm容错性机制
-@ul
 
 #### **如果nimbus和supervisor守护进程不幸死亡**
+@ul
+
  - storm将nimbus和supervisor设计成***快速失败***（碰到意外情况进程立刻毁灭）和无状态（状态在zk或本地文件上）的
  - 使用daemontools监控，并立即重启
  - 守护进程的死亡并不影响worker（独立的进程，worker的心跳并不直接与supervisor和nimbus交互）
 
+@ulend
+
 #### **某种意义上storm是单点故障（SPOF）的**
+@ul
+
  - 如果nimbus宕机了，worker并不会直接受到影响，还会继续工作
  - 在必需nimbus时，就会受到影响
  - 在1.x版本之后，已经可以配置多个nimbus备选节点，解决了单点问题
@@ -391,10 +419,13 @@ public class ReportBolt extends BaseRichBolt {
 ---
 
 #### Acker组件
+@ul
 
  - 一种特殊的task，负责追踪tuple流
  - messageId根据一致性哈希选择负责的Acker
  - Acker使用简单的异或算法来确定tuple是否完全处理
+
+@ulend
 
 ---
 
@@ -406,3 +437,112 @@ public class ReportBolt extends BaseRichBolt {
 
 ---
 
+```java
+/*BoltOutputCollectorImpl.java*/
+
+private List<Integer> boltEmit(String streamId, Collection<Tuple> anchors, List<Object> values,
+                                   Integer targetTaskId) throws InterruptedException {
+        List<Integer> outTasks;
+        if (targetTaskId != null) {
+            outTasks = task.getOutgoingTasks(targetTaskId, streamId, values);
+        } else {
+            outTasks = task.getOutgoingTasks(streamId, values);
+        }
+
+        for (int i = 0; i < outTasks.size(); ++i) {
+            Integer t = outTasks.get(i);
+            MessageId msgId;
+            if (ackingEnabled && anchors != null) {
+                final Map<Long, Long> anchorsToIds = new HashMap<>();
+                for (Tuple a : anchors) {  // perf critical path. would be nice to avoid iterator allocation here and below
+                    Set<Long> rootIds = a.getMessageId().getAnchorsToIds().keySet();
+                    if (rootIds.size() > 0) {
+                        long edgeId = MessageId.generateId(random);
+                        ((TupleImpl) a).updateAckVal(edgeId);
+                        for (Long root_id : rootIds) {
+                            putXor(anchorsToIds, root_id, edgeId);
+                        }
+                    }
+                }
+                msgId = MessageId.makeId(anchorsToIds);
+            } else {
+                msgId = MessageId.makeUnanchored();
+            }
+            TupleImpl tupleExt = new TupleImpl(
+                executor.getWorkerTopologyContext(), values, executor.getComponentId(), taskId, streamId, msgId);
+            xsfer.tryTransfer(new AddressedTuple(t, tupleExt), executor.getPendingEmits());
+        }
+        if (isEventLoggers) {
+            task.sendToEventLogger(executor, values, executor.getComponentId(), null, random, executor.getPendingEmits());
+        }
+        return outTasks;
+    }
+
+    @Override
+    public void ack(Tuple input) {
+        if (!ackingEnabled) {
+            return;
+        }
+        long ackValue = ((TupleImpl) input).getAckVal();
+        Map<Long, Long> anchorsToIds = input.getMessageId().getAnchorsToIds();
+        for (Map.Entry<Long, Long> entry : anchorsToIds.entrySet()) {
+            task.sendUnanchored(Acker.ACKER_ACK_STREAM_ID,
+                                new Values(entry.getKey(), Utils.bitXor(entry.getValue(), ackValue)),
+                                executor.getExecutorTransfer(), executor.getPendingEmits());
+        }
+        long delta = tupleTimeDelta((TupleImpl) input);
+        if (isDebug) {
+            LOG.info("BOLT ack TASK: {} TIME: {} TUPLE: {}", taskId, delta, input);
+        }
+
+        if (!task.getUserContext().getHooks().isEmpty()) {
+            BoltAckInfo boltAckInfo = new BoltAckInfo(input, taskId, delta);
+            boltAckInfo.applyOn(task.getUserContext());
+        }
+        if (delta >= 0) {
+            executor.getStats().boltAckedTuple(input.getSourceComponent(), input.getSourceStreamId(), delta,
+                                               task.getTaskMetrics().getAcked(input.getSourceStreamId()));
+        }
+    }
+```
+
+---
+
+### storm的适用场景
+@ul
+
+- 流处理
+- 无状态、无关联
+- DRPC
+
+@ulend
+
+---
+
+### 未来发展趋势
+@ul
+
+- 流式计算与批量计算的统一
+
+@ulend
+
+---
+
+## Storm在游戏业务中应用
+
+---
+
+###实时计算可以用在游戏中的什么地方？
+@ul
+
+- 日志分析
+- 实时报警
+- 游戏道具推荐
+- 游戏参数实时调整
+- ……
+
+@ulend
+
+---
+
+# THANKS
