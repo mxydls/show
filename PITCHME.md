@@ -532,7 +532,7 @@ private List<Integer> boltEmit(String streamId, Collection<Tuple> anchors, List<
 
 ---
 
-###实时计算可以用在游戏中的什么地方？
+### 实时计算可以用在游戏中的什么地方？
 @ul
 
 - 日志分析
@@ -545,4 +545,4 @@ private List<Integer> boltEmit(String streamId, Collection<Tuple> anchors, List<
 
 ---
 
-# THANKS
+@color[orange](# THANKS)
