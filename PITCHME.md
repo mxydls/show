@@ -545,4 +545,4 @@ private List<Integer> boltEmit(String streamId, Collection<Tuple> anchors, List<
 
 ---
 
-@color[orange](# THANKS)
+# @color[orange](THANKS)
