@@ -72,7 +72,7 @@ Hadoop和hive作为全量数据处理最著名的工具，具有吞吐量、自�
 
 ---
 
-### zookeeper
+### @fa[elephant](zookeeper)
 
  官方说辞：Zookeeper 分布式服务框架是Apache Hadoop 的一个子项目，它主要是用来解决分布式应用中经常遇到的一些数据管理问题，如：统一命名服务、状态同步服务、集群管理、分布式应用配置项的管理等。
  
@@ -192,7 +192,7 @@ Hadoop和hive作为全量数据处理最著名的工具，具有吞吐量、自�
 
 ---
 
-## Storm
+## @fa[twitter](Storm)
 ![enter image description here](http://static.oschina.net/uploads/img/201410/14080822_ia5p.png)
 
 ---
@@ -250,7 +250,7 @@ Hadoop和hive作为全量数据处理最著名的工具，具有吞吐量、自�
 
 ---
 
-#### 一个简单的例子
+#### @fa[bug](一个简单的例子)
 ![enter image description here](http://images.cnitblog.com/blog/469775/201401/05202248-63f22df4440c43c8a1bd3c4ca3de7e4f.png)
 
 ---
@@ -370,7 +370,7 @@ public class ReportBolt extends BaseRichBolt {
 
 ---
 
-### storm容错性机制
+### @fa[exclamation-triangle](storm容错性机制)
 
 #### **如果一个worker意外死亡**
 @ul
@@ -388,7 +388,7 @@ public class ReportBolt extends BaseRichBolt {
 
 ---
 
-### storm容错性机制
+### @fa[exclamation-triangle](storm容错性机制)
 
 #### **如果nimbus和supervisor守护进程不幸死亡**
 @ul
@@ -410,7 +410,7 @@ public class ReportBolt extends BaseRichBolt {
 
 ---
 
-### storm可靠性机制
+### @fa[thumbs-up](storm可靠性机制)
 
 #### 什么是fully processed?
  >Storm的可靠性是指Storm会告知用户每一个消息单元是否在一个指定的时间(timeout)内被完全处理。
