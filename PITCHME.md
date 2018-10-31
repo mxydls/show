@@ -442,7 +442,7 @@ public class ReportBolt extends BaseRichBolt {
 
 ---
 
-![Alt text](./异或.PNG)
+![Alt text](imgs/acker.png)
 
 ---
 
