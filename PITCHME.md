@@ -76,11 +76,16 @@ Hadoop和hive作为全量数据处理最著名的工具，具有吞吐量、自�
 
  官方说辞：Zookeeper 分布式服务框架是Apache Hadoop 的一个子项目，它主要是用来解决分布式应用中经常遇到的一些数据管理问题，如：统一命名服务、状态同步服务、集群管理、分布式应用配置项的管理等。
  
+ 
 ***分布式协调服务框架***
+
 ***解决分布一致性问题***
+
 ***本质：分布式小文件存储系统 + 通知机制***
 
 ---
+
+@transition[zoom]
 
 ### 分布式一致性
 
@@ -116,11 +121,15 @@ Hadoop和hive作为全量数据处理最著名的工具，具有吞吐量、自�
 ### zookeeper提供了什么
 
 #### 特性
->全局数据一致
-可靠性
-顺序性
-原子性
-实时性
+@ul
+
+- 全局数据一致
+- 可靠性
+- 顺序性
+- 原子性
+- 实时性
+
+@ulend
 
 ---
 
@@ -150,6 +159,8 @@ Hadoop和hive作为全量数据处理最著名的工具，具有吞吐量、自�
 ### zookeeper的典型应用场景
 
 ---
+
+@transition[zoom]
 
 #### 配置管理
 
@@ -200,6 +211,8 @@ Hadoop和hive作为全量数据处理最著名的工具，具有吞吐量、自�
 ### Apache Storm是一个*分布式的、可靠的、容错的*实时数据流处理框架
 
 ---
+
+@transition[zoom]
 
 ### 基本概念
 #### topology
@@ -532,6 +545,8 @@ private List<Integer> boltEmit(String streamId, Collection<Tuple> anchors, List<
 
 ---
 
+@transition[zoom]
+
 ### 实时计算可以用在游戏中的什么地方？
 @ul
 
@@ -544,5 +559,7 @@ private List<Integer> boltEmit(String streamId, Collection<Tuple> anchors, List<
 @ulend
 
 ---
+
+@transition[convex]
 
 # @color[orange](THANKS)
