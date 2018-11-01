@@ -355,25 +355,35 @@ public class ReportBolt extends BaseRichBolt {
 
 ### Zookeeper在storm中的作用
 ![enter image description here](https://maxiang.io/evernote/res/https://app.yinxiang.com/shard/s66/res/bf5309f0-6e32-45bb-be04-5887a3d225b7?size=228414&format=image.png)
-1. 客户端提交拓扑到nimbus
+
+客户端提交拓扑到nimbus
 
 ---
 
+@transition[none]
+
 ### Zookeeper在storm中的作用
 ![enter image description here](https://maxiang.io/evernote/res/https://app.yinxiang.com/shard/s66/res/bf5309f0-6e32-45bb-be04-5887a3d225b7?size=228414&format=image.png)
-2. Nimbus针对该拓扑建立本地的目录根据topology的配置计算task，分配task，在zookeeper上建立assignments节点存储task和supervisor机器节点中woker的对应关系
+
+Nimbus针对该拓扑建立本地的目录根据topology的配置计算task，分配task，在zookeeper上建立assignments节点存储task和supervisor机器节点中woker的对应关系
 
 ---
 
+@transition[none]
+
 ### Zookeeper在storm中的作用
 ![enter image description here](https://maxiang.io/evernote/res/https://app.yinxiang.com/shard/s66/res/bf5309f0-6e32-45bb-be04-5887a3d225b7?size=228414&format=image.png)
-3. 在zookeeper上创建taskbeats节点来监控task的心跳；启动topology
+
+在zookeeper上创建taskbeats节点来监控task的心跳；启动topology
 
 ---
 
+@transition[none]
+
 ### Zookeeper在storm中的作用
 ![enter image description here](https://maxiang.io/evernote/res/https://app.yinxiang.com/shard/s66/res/bf5309f0-6e32-45bb-be04-5887a3d225b7?size=228414&format=image.png)
-4. Supervisor去zookeeper上获取分配的tasks，启动多个woker；根据topology信息初始化建立task之间的连接；后整个拓扑运行起来
+
+Supervisor去zookeeper上获取分配的tasks，启动多个woker；根据topology信息初始化建立task之间的连接；后整个拓扑运行起来
 
 ---
 
@@ -442,7 +452,7 @@ public class ReportBolt extends BaseRichBolt {
 
 ---
 
-![Alt text](imgs/acker.png)
+![Alt text](./异或.PNG)
 
 ---
 
